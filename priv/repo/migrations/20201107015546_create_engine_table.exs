@@ -1,6 +1,6 @@
 defmodule CarData.Repo.Migrations.CreateEngineTable do
   use Ecto.Migration
-  alias CarData.DriveType
+  alias CarData.Types.DriveType
 
   def change do
     create table(:engine, primary_key: false) do
