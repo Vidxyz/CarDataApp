@@ -10,6 +10,7 @@ defmodule CarData.Repo.Migrations.CreateDimensionsTable do
       add :four_door_luggage_volume, :int
       add :two_door_passenger_volume, :int
       add :four_door_passenger_volume, :int
+      add :vehicle_id, references(:vehicle, on_delete: :delete_all, type: :uuid)
     end
   end
 end

@@ -8,6 +8,7 @@ defmodule CarData.Repo.Migrations.CreateFuelEmissionTable do
       add :tailpipe_co2_secondary, :float
       add :gh_gas_score_primary, :int
       add :gh_gas_score_secondary, :int
+      add :engine_id, references(:engine, on_delete: :delete_all, type: :uuid)
     end
   end
 end

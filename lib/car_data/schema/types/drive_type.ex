@@ -1,6 +1,6 @@
-defmodule CarData.Types.DriveType do
+defmodule CarData.Schema.Types.DriveType do
   use Ecto.Schema
-  alias CarData.Types.DriveType
+  alias CarData.Schema.Types.DriveType
 
   schema "drive_type" do
     field :name, :string

@@ -22,6 +22,8 @@ defmodule CarData.Repo.Migrations.CreateFuelEconomyTable do
       add :is_guzzler, :boolean
       add :time_to_charge_120v, :float
       add :time_to_charge_240v, :float
+
+      add :engine_id, references(:engine, on_delete: :delete_all, type: :uuid)
     end
   end
 end

@@ -1,6 +1,6 @@
-defmodule CarData.Types.AlternativeFuelType do
+defmodule CarData.Schema.Types.AlternativeFuelType do
   use Ecto.Schema
-  alias CarData.Types.AlternativeFuelType
+  alias CarData.Schema.Types.AlternativeFuelType
 
   schema "alternative_fuel_type" do
     field :name, :string

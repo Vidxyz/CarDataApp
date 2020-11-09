@@ -1,6 +1,6 @@
 defmodule CarData.Repo.Migrations.CreateAlternativeFuelTypeTable do
   use Ecto.Migration
-  alias CarData.Type.AlternativeFuelType
+  alias CarData.Schema.Types.AlternativeFuelType
 
   def change do
     create table(:alternative_fuel_type) do

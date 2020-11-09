@@ -1,6 +1,6 @@
 defmodule CarData.Repo.Migrations.CreateVehicleTable do
   use Ecto.Migration
-  alias CarData.Types.AlternativeFuelType
+  alias CarData.Schema.Types.AlternativeFuelType
 
   def change do
     create table(:vehicle, primary_key: false) do
@@ -13,9 +13,6 @@ defmodule CarData.Repo.Migrations.CreateVehicleTable do
       add :fuel_type, :string
       add :manufacturer_code, :string
       add :record_id, :int
-      add :engine_id, references(:engine, on_delete: :delete_all, type: :uuid)
-      add :transmission_id, references(:transmission, on_delete: :delete_all, type: :uuid)
-      add :dimensions_id, references(:dimensions, on_delete: :delete_all, type: :uuid)
       add :alternative_fuel_type, :string
       add :vehicle_class, :string
     end

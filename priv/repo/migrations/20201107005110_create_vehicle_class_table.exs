@@ -1,6 +1,6 @@
 defmodule CarData.Repo.Migrations.CreateVehicleClassTable do
   use Ecto.Migration
-  alias CarData.Types.VehicleClass
+  alias CarData.Schema.Types.VehicleClass
 
   def change do
     create table(:vehicle_class) do

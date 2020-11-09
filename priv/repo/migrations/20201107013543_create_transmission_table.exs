@@ -6,6 +6,7 @@ defmodule CarData.Repo.Migrations.CreateTransmissionTable do
       add :id, :uuid, primary_key: true
       add :descriptor, :string
       add :type, :string
+      add :vehicle_id, references(:vehicle, on_delete: :delete_all, type: :uuid)
     end
   end
 end

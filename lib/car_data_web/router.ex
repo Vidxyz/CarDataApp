@@ -19,8 +19,14 @@ defmodule CarDataWeb.Router do
     get "/", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", CarDataWeb do
-  #   pipe_through :api
-  # end
+  scope "/api" do
+    pipe_through :api
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: CarDataWeb.Schema
+    forward "/", Absinthe.Plug, schema: CarDataWeb.Schema
+
+  end
+
+
+
 end

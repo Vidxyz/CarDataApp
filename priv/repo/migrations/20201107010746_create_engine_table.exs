@@ -1,6 +1,6 @@
 defmodule CarData.Repo.Migrations.CreateEngineTable do
   use Ecto.Migration
-  alias CarData.Types.DriveType
+  alias CarData.Schema.Types.DriveType
 
   def change do
     create table(:engine, primary_key: false) do
@@ -12,9 +12,8 @@ defmodule CarData.Repo.Migrations.CreateEngineTable do
       add :ev_motor, :string
       add :is_supercharged, :boolean
       add :is_turbocharged, :boolean
-      add :fuel_economy_id, references(:fuel_economy, on_delete: :delete_all, type: :uuid)
-      add :fuel_emission_id, references(:fuel_emission, on_delete: :delete_all, type: :uuid)
       add :drive_type, :string
+      add :vehicle_id, references(:vehicle, on_delete: :delete_all, type: :uuid)
     end
 
     create constraint("engine", :drive_type_must_be_recognized, check: """
