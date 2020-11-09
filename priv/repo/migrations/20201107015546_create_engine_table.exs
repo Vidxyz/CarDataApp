@@ -18,9 +18,9 @@ defmodule CarData.Repo.Migrations.CreateEngineTable do
     end
 
     create constraint("engine", :drive_type_must_be_recognized, check: """
-    drive_type in ('#{DriveType.two_wheel_drive.name}}', '#{DriveType.four_wheel_drive().name}}',
-    '#{DriveType.four_wd_or_awd.name}}', '#{DriveType.awd.name}}',
-    '#{DriveType.fwd.name}}', '#{DriveType.pt4wd.name}}', '#{DriveType.rwd.name}}')
+    drive_type in ('#{DriveType.two_wheel_drive.name}', '#{DriveType.four_wheel_drive.name}',
+    '#{DriveType.four_wd_or_awd.name}', '#{DriveType.awd.name}',
+    '#{DriveType.fwd.name}', '#{DriveType.pt4wd.name}', '#{DriveType.rwd.name}')
     """)
 
   end

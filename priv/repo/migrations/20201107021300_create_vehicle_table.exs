@@ -21,10 +21,10 @@ defmodule CarData.Repo.Migrations.CreateVehicleTable do
     end
 
     create constraint("vehicle", :alternative_fuel_type_must_be_recognized, check: """
-    alternative_fuel_type in ('#{AlternativeFuelType.bcng.name}}', '#{AlternativeFuelType.blpg.name}}',
-    '#{AlternativeFuelType.cng.name}}', '#{AlternativeFuelType.diesel.name}}',
-    '#{AlternativeFuelType.ev.name}}', '#{AlternativeFuelType.ffv.name}}', '#{AlternativeFuelType.hybrid.name}}',
-    '#{AlternativeFuelType.plug_in_hybrid.name}}')
+    alternative_fuel_type in ('#{AlternativeFuelType.bcng.name}', '#{AlternativeFuelType.blpg.name}',
+    '#{AlternativeFuelType.cng.name}', '#{AlternativeFuelType.diesel.name}',
+    '#{AlternativeFuelType.ev.name}', '#{AlternativeFuelType.ffv.name}', '#{AlternativeFuelType.hybrid.name}',
+    '#{AlternativeFuelType.plug_in_hybrid.name}')
     """)
   end
 end
