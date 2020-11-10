@@ -32,10 +32,10 @@ defmodule CarDataWeb.Schema.VehicleTypes do
     field :is_turbocharged, :boolean
     field :drive_type, :string
     field :fuel_economy, :fuel_economy do
-      resolve &Resolvers.Content.find_fuel_economy/3
+      resolve &Resolvers.Engine.find_fuel_economy/3
     end
     field :fuel_emission, :fuel_emission do
-      resolve &Resolvers.Content.find_fuel_emission/3
+      resolve &Resolvers.Engine.find_fuel_emission/3
     end
   end
 end

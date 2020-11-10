@@ -1,4 +1,4 @@
-defmodule CarDataWeb.Schema.FuelTypes do
+defmodule CarDataWeb.Schema.EngineTypes do
   use Absinthe.Schema.Notation
 
   @desc "Engine Fuel Economy Type"
@@ -8,9 +8,9 @@ defmodule CarDataWeb.Schema.FuelTypes do
     field :barrels_per_year_secondary, :float
     field :city_mpg_primary, :integer
     field :city_mpg_secondary, :integer
+    field :highway_mpg_primary, :integer
     field :highway_mpg_secondary, :integer
-    field :highway_mpg_secondary, :integer
-    field :combined_mpg_secondary, :integer
+    field :combined_mpg_primary, :integer
     field :combined_mpg_secondary, :integer
     field :annual_fuel_cost_primary, :integer
     field :annual_fuel_cost_secondary, :integer

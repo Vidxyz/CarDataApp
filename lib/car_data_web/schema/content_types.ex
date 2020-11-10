@@ -13,13 +13,13 @@ defmodule CarDataWeb.Schema.ContentTypes do
     field :manufacturer_code, :string
     field :vehicle_record, :integer
     field :engine, :engine do
-      resolve &Resolvers.Content.find_engine/3
+      resolve &Resolvers.Vehicle.find_engine/3
     end
     field :transmission, :transmission do
-      resolve &Resolvers.Content.find_transmission/3
+      resolve &Resolvers.Vehicle.find_transmission/3
     end
     field :dimensions, :dimensions do
-      resolve &Resolvers.Content.find_dimensions/3
+      resolve &Resolvers.Vehicle.find_dimensions/3
     end
     field :alternate_fuel_type, :string
     field :vehicle_class, :string
