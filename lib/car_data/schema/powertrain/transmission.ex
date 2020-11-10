@@ -3,6 +3,7 @@ defmodule CarData.Schema.Powertrain.Transmission do
 
   @primary_key {:id, :binary_id, autogenerate: true}
   schema "transmission" do
+    # https://www.fueleconomy.gov/feg/findacarhelp.shtml#trany
     field :descriptor, :string
     field :type, :string
 
