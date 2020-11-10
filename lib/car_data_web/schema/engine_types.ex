@@ -29,7 +29,7 @@ defmodule CarDataWeb.Schema.EngineTypes do
     field :id, :id
     field :tailpipe_co2_primary, :float
     field :tailpipe_co2_seconary, :float
-    field :gh_gas_score_primary, :integer
-    field :gh_gas_score_secondary, :integer
+    field :gh_gas_score_primary, :integer, name: "greenhouse_gas_score_primary"
+    field :gh_gas_score_secondary, :integer, name: "greenhouse_gas_score_secondary"
   end
 end
