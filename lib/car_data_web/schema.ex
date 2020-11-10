@@ -9,6 +9,14 @@ defmodule CarDataWeb.Schema do
 
   query do
 
+    @desc "List vehicles ordered by chosen metric"
+    field :sort, list_of(:vehicle) do
+      arg :metric, non_null(:string)
+      arg :order, :string, default_value: "asc"
+      arg :limit, :integer, default_value: 10
+      resolve &Resolvers.Content.sort_vehicles_by_metric/3
+    end
+
     @desc "List vehicles by search string"
     field :search, list_of(:vehicle) do
       arg :query, non_null(:string)

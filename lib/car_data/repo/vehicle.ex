@@ -8,6 +8,21 @@ defmodule CarData.Repo.Vehicle do
   alias CarData.Schema.Fuel.FuelEconomy
   alias CarData.Schema.Fuel.FuelEmission
 
+  def sort_vehicles_by_metric(metric, order, max_elements) do
+    case metric do
+      :greenhouse_gas_score_primary ->
+        from v in Vehicle,
+        join: e in Engine,
+        on: v.id == e.vehicle_id,
+        join: fe in FuelEmission,
+        on fe.engine_id == e.id,
+        select: {v},
+        order_by: [{^order, fe.gg_score_primary }]
+      _ ->
+        :error
+    end
+  end
+
   def find_vehicles(search_query) do
     query = from(v in Vehicle)
     search_query
