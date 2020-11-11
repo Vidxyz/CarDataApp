@@ -1,7 +1,18 @@
 defmodule CarDataWeb.Resolvers.Content do
+  alias CarData.Repo.Vehicle
+
+  @valid_metrics Vehicle.valid_metrics
+  @valid_orders ["asc", "desc"]
 
   def sort_vehicles_by_metric(_parent, %{metric: metric, order: order, limit: limit, offset: offset}, _resolution) do
-    {:ok, CarData.Repo.Vehicle.sort_vehicles_by_metric(metric, order, limit, offset)}
+    case order do
+      o when o in @valid_orders ->
+        case metric do
+          m when m in @valid_metrics -> {:ok, CarData.Repo.Vehicle.sort_vehicles_by_metric(metric, order, limit, offset)}
+          _ -> {:error, "Unsupported Metric"}
+        end
+      _ -> {:error, "Expected order to be one of 'asc' or 'desc'"}
+      end
   end
 
   def find_vehicles(_parent, %{query: search_query}, _resolution) do

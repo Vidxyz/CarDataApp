@@ -29,6 +29,8 @@ defmodule CarData.Repo.Vehicle do
     "four_door_luggage_volume", "two_door_passenger_volume", "four_door_passenger_volume"
   ]
 
+  def valid_metrics() do @fuel_metrics ++ @engine_metrics ++ @dimensions_metrics end
+
   defp add_sort_criteria_for_fuel_metrics(query, field_name, table, order) do
     query
     |> join(:inner, [v, e, fe], fe in ^table, on: fe.engine_id == e.id)
@@ -44,7 +46,7 @@ defmodule CarData.Repo.Vehicle do
                  offset: ^offset
 
     case Map.get(@metric_mappings, metric) do
-      nil ->      query |> add_sort_criteria_for_fuel_metrics(String.to_atom(metric), Map.get(@fuel_metric_to_table_mappings, metric), order)
+      nil     ->  query |> add_sort_criteria_for_fuel_metrics(String.to_atom(metric), Map.get(@fuel_metric_to_table_mappings, metric), order)
       mapping ->  query |> add_sort_criteria_for_fuel_metrics(String.to_atom(mapping), Map.get(@fuel_metric_to_table_mappings, mapping), order)
     end
   end
@@ -61,6 +63,7 @@ defmodule CarData.Repo.Vehicle do
     |> order_by([v, e], [{^String.to_atom(order), field(e, ^String.to_atom(metric))}, asc: v.year, asc: v.make, asc: v.model])
   end
 
+  # Only returns non-zero results for chosen metric
   defp sort_vehicles_by_dimensions_metric(metric, order, max_elements, offset) do
     query = from v in Vehicle,
                  join: d in Dimensions,
@@ -70,20 +73,15 @@ defmodule CarData.Repo.Vehicle do
 
     query
     |> where([v, d], not is_nil(field(d, ^String.to_atom(metric))))
+    |> where([v, d], (field(d, ^String.to_atom(metric))) > 0)
     |> order_by([v, d], [{^String.to_atom(order), field(d, ^String.to_atom(metric))}, asc: v.year, asc: v.make, asc: v.model])
   end
 
-  # todo - graceful error handling
   def sort_vehicles_by_metric(metric, order, max_elements, offset) do
-    case order do
-      value when value in ["asc", "desc"] ->
-        case metric do
-          value when value in @fuel_metrics -> sort_vehicles_by_fuel_metric(metric, order, max_elements, offset)
-          value when value in @engine_metrics -> sort_vehicles_by_engine_metric(metric, order, max_elements, offset)
-          value when value in @dimensions_metrics -> sort_vehicles_by_dimensions_metric(metric, order, max_elements, offset)
-          _ -> {:error, "Unsupported Metric"}
-        end
-      _ -> {:error, "Expected order to be one of 'asc' or 'desc'"}
+    case metric do
+      value when value in @fuel_metrics -> sort_vehicles_by_fuel_metric(metric, order, max_elements, offset)
+      value when value in @engine_metrics -> sort_vehicles_by_engine_metric(metric, order, max_elements, offset)
+      value when value in @dimensions_metrics -> sort_vehicles_by_dimensions_metric(metric, order, max_elements, offset)
     end
     |> Repo.all
   end
