@@ -12,7 +12,7 @@ defmodule CarDataWeb.Schema do
     @desc "List vehicles ordered by chosen metric"
     field :sort, list_of(:vehicle) do
       arg :metric, non_null(:string)
-      arg :order, :string, default_value: "asc"
+      arg :order, :string, default_value: "desc"
       arg :limit, :integer, default_value: 10
       resolve &Resolvers.Content.sort_vehicles_by_metric/3
     end
