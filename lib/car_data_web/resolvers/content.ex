@@ -1,7 +1,7 @@
 defmodule CarDataWeb.Resolvers.Content do
 
-  def sort_vehicles_by_metric(_parent, %{metric: metric, order: order, limit: limit}, _resolution) do
-    {:ok, CarData.Repo.Vehicle.sort_vehicles_by_metric(metric, order, limit)}
+  def sort_vehicles_by_metric(_parent, %{metric: metric, order: order, limit: limit, offset: offset}, _resolution) do
+    {:ok, CarData.Repo.Vehicle.sort_vehicles_by_metric(metric, order, limit, offset)}
   end
 
   def find_vehicles(_parent, %{query: search_query}, _resolution) do

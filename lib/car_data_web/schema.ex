@@ -14,6 +14,7 @@ defmodule CarDataWeb.Schema do
       arg :metric, non_null(:string)
       arg :order, :string, default_value: "desc"
       arg :limit, :integer, default_value: 10
+      arg :offset, :integer, default_value: 0
       resolve &Resolvers.Content.sort_vehicles_by_metric/3
     end
 
