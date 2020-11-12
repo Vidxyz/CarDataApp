@@ -21,7 +21,7 @@ defmodule CarDataWeb.Schema.ContentTypes do
     field :dimensions, :dimensions do
       resolve &Resolvers.Vehicle.find_dimensions/3
     end
-    field :alternate_fuel_type, :string
+    field :alternative_fuel_type, :string, name: "alternate_fuel_type"
     field :vehicle_class, :string
   end
 end
