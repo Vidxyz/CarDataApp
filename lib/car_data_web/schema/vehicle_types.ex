@@ -6,7 +6,8 @@ defmodule CarDataWeb.Schema.VehicleTypes do
   object :transmission do
     field :id, :id
     field :type, :string
-    field :descriptor, :string
+    # todo - clean this defn
+    field :transmission_descriptor, :string
   end
 
   @desc "Vehicle Dimensions Type"
@@ -26,6 +27,7 @@ defmodule CarDataWeb.Schema.VehicleTypes do
     field :cylinders, :float
     field :displacement, :float
     field :engine_id, :integer
+    # todo - clean this defn
     field :engine_descriptor, :string
     field :ev_motor, :string
     field :is_supercharged, :boolean

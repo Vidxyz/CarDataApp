@@ -147,4 +147,104 @@ defmodule CarData.Repo.Vehicle do
   def find_fuel_emission(%{fuel_emission_id: fuel_emission_id}) do
     Repo.get(FuelEmission, fuel_emission_id)
   end
+
+  def get_distinct_attribute_names do
+    (Vehicle.__schema__(:fields) |> to_strings) ++
+    (Dimensions.__schema__(:fields) |> to_strings) ++
+    (Transmission.__schema__(:fields) |> to_strings) ++
+    (Engine.__schema__(:fields) |> to_strings) ++
+    (FuelEconomy.__schema__(:fields) |> to_strings) ++
+    (FuelEmission.__schema__(:fields) |> to_strings)
+  end
+
+  defp to_strings(list) do
+    Enum.map(list, fn f -> Atom.to_string(f) end)
+  end
+
+  def get_distinct_attribute_values(selected_attributes) do
+    attribute_names = get_distinct_attribute_names()
+                      |> Enum.filter(fn item -> item not in ["id", "vehicle_id", "engine_id"] end)
+                      |> Enum.filter(fn item -> item in selected_attributes end)
+                      |> Enum.map(fn item -> String.to_atom(item) end)
+    get_distinct_attribute_values_for_chosen_attribute_names(attribute_names)
+  end
+
+  def get_distinct_attribute_values do
+    attribute_names = get_distinct_attribute_names()
+                      |> Enum.filter(fn item -> item not in ["id", "vehicle_id", "engine_id"] end)
+                      |> Enum.map(fn item -> String.to_atom(item) end)
+    get_distinct_attribute_values_for_chosen_attribute_names(attribute_names)
+  end
+
+  defp get_distinct_attribute_values_for_chosen_attribute_names(attribute_names) do
+    with_query = get_all_attributes()
+    attribute_values = Enum.map(attribute_names, fn field_name ->
+      query = with_cte("all_attributes", "all_attributes", as: ^with_query)
+              |> select([c], field(c, ^field_name))
+              |> distinct(true)
+              |> order_by([c], asc: field(c, ^field_name))
+      Repo.all(query)
+    end)
+    Enum.zip(attribute_names, attribute_values) |> Enum.into(%{})
+  end
+
+  defp get_all_attributes do
+    from v in Vehicle,
+     join: e in Engine, on: e.vehicle_id == v.id,
+     join: t in Transmission, on: t.vehicle_id == v.id,
+     join: d in Dimensions, on: d.vehicle_id == v.id,
+     join: fe in FuelEconomy, on: fe.engine_id == e.id,
+     join: fue in FuelEmission, on: fue.engine_id == e.id,
+     select: %{
+       make: v.make,
+       model: v.model,
+       year: v.year,
+       fuel_type_primary: v.fuel_type_primary,
+       fuel_type_secondary: v.fuel_type_secondary,
+       fuel_type: v.fuel_type,
+       manufacturer_code: v.manufacturer_code,
+       record_id: v.record_id,
+       alternative_fuel_type: v.alternative_fuel_type,
+       vehicle_class: v.vehicle_class,
+       hatchback_luggage_volume: d.hatchback_luggage_volume,
+       hatchback_passenger_volume: d.hatchback_passenger_volume,
+       two_door_luggage_volume: d.two_door_luggage_volume,
+       four_door_luggage_volume: d.four_door_luggage_volume,
+       two_door_passenger_volume: d.two_door_passenger_volume,
+       four_door_passenger_volume: d.four_door_passenger_volume,
+       transmission_descriptor: t.transmission_descriptor,
+       type: t.type,
+       cylinders: e.cylinders,
+       displacement: e.displacement,
+       engine_id: e.engine_id,
+       engine_descriptor: e.engine_descriptor,
+       ev_motor: e.ev_motor,
+       is_supercharged: e.is_supercharged,
+       is_turbocharged: e.is_turbocharged,
+       drive_type: e.drive_type,
+       barrels_per_year_primary: fe.barrels_per_year_primary,
+       barrels_per_year_secondary: fe.barrels_per_year_secondary,
+       city_mpg_primary: fe.city_mpg_primary,
+       city_mpg_secondary: fe.city_mpg_secondary,
+       highway_mpg_primary: fe.highway_mpg_primary,
+       highway_mpg_secondary: fe.highway_mpg_secondary,
+       combined_mpg_primary: fe.combined_mpg_primary,
+       combined_mpg_secondary: fe.combined_mpg_secondary,
+       annual_fuel_cost_primary: fe.annual_fuel_cost_primary,
+       annual_fuel_cost_secondary: fe.annual_fuel_cost_secondary,
+       combined_power_consumption: fe.combined_power_consumption,
+       fuel_economy_score: fe.fuel_economy_score,
+       epa_range_secondary: fe.epa_range_secondary,
+       epa_city_range_secondary: fe.epa_city_range_secondary,
+       epa_highway_range_secondary: fe.epa_highway_range_secondary,
+       is_guzzler: fe.is_guzzler,
+       time_to_charge_120v: fe.time_to_charge_120v,
+       time_to_charge_240v: fe.time_to_charge_240v,
+       tailpipe_co2_primary: fue.tailpipe_co2_primary,
+       tailpipe_co2_secondary: fue.tailpipe_co2_secondary,
+       gh_gas_score_primary: fue.gh_gas_score_primary,
+       gh_gas_score_secondary: fue.gh_gas_score_secondary
+     }
+  end
+
 end

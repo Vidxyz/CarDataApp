@@ -4,10 +4,22 @@ defmodule CarDataWeb.Schema do
   import_types CarDataWeb.Schema.ContentTypes
   import_types CarDataWeb.Schema.VehicleTypes
   import_types CarDataWeb.Schema.EngineTypes
+  import_types CarDataWeb.Schema.AttributeTypes
 
   alias CarDataWeb.Resolvers
 
   query do
+
+    @desc "Fetch all distinct attribute names"
+    field :attribute_names, list_of(:string) do
+      resolve &Resolvers.Attribute.get_distinct_attribute_names/3
+    end
+
+    @desc "Fetch all distinct attribute values"
+    field :attribute_values, :attribute_values do
+      arg :attributes, list_of(:string), default_value: []
+      resolve &Resolvers.Attribute.get_distinct_attribute_values/3
+    end
 
     @desc "List vehicles ordered by chosen metric"
     field :sort, list_of(:vehicle) do

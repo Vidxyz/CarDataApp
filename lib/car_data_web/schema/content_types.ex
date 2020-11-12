@@ -7,11 +7,11 @@ defmodule CarDataWeb.Schema.ContentTypes do
     field :make, :string
     field :model, :string
     field :year, :integer
-    field :primary_fuel, :string
-    field :alternate_fuel, :string
+    field :fuel_type_primary, :string, name: "primary_fuel"
+    field :fuel_type_secondary, :string, name: "alternate_fuel"
     field :fuel_type, :string
     field :manufacturer_code, :string
-    field :vehicle_record, :integer
+    field :record_id, :integer
     field :engine, :engine do
       resolve &Resolvers.Vehicle.find_engine/3
     end
