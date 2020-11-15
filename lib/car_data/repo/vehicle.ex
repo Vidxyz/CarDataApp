@@ -103,6 +103,14 @@ defmodule CarData.Repo.Vehicle do
     Repo.get(Vehicle, vehicle_id)
   end
 
+  def get_vehicles(max_elements, offset) do
+    query = from v in Vehicle,
+         limit: ^max_elements,
+         offset: ^offset,
+         order_by: [asc: v.make, asc: v.model, asc: v.year]
+    query |> Repo.all
+  end
+
   def find_transmission(%{vehicle_id: vehicle_id}) do
     from(t in Transmission, where: t.vehicle_id == ^vehicle_id)
     |> Repo.all

@@ -26,4 +26,8 @@ defmodule CarDataWeb.Resolvers.Content do
     end
   end
 
+  def get_vehicles(_parent, %{limit: limit, offset: offset}, _resolution) do
+    {:ok, Vehicle.get_vehicles(limit, offset)}
+  end
+
 end
