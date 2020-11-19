@@ -11,21 +11,29 @@ defmodule CarDataWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
+    plug :fetch_flash
   end
 
   scope "/", CarDataWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
+    get "/", VehicleController, :index
   end
 
   scope "/api" do
     pipe_through :api
 
-    forward "/graphiql", Absinthe.Plug.GraphiQL, schema: CarDataWeb.Schema
-    forward "/", Absinthe.Plug, schema: CarDataWeb.Schema
+    scope "/graphql" do
+      forward "/graphiql", Absinthe.Plug.GraphiQL, schema: CarDataWeb.Schema
+      forward "/", Absinthe.Plug, schema: CarDataWeb.Schema
+    end
 
+    scope "/vehicle" do
+      get "/image", CarDataWeb.VehicleController, :show_image
+    end
   end
+
 
 
 

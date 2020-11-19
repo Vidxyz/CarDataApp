@@ -2,6 +2,7 @@ defmodule CarData.Repo.Vehicle do
   import Ecto.Query, warn: false
   alias CarData.Repo
   alias CarData.Schema.Vehicle.Vehicle
+  alias CarData.Schema.Vehicle.Image
   alias CarData.Schema.Powertrain.Transmission
   alias CarData.Schema.Powertrain.Engine
   alias CarData.Schema.Vehicle.Dimensions
@@ -253,6 +254,11 @@ defmodule CarData.Repo.Vehicle do
        gh_gas_score_primary: fue.gh_gas_score_primary,
        gh_gas_score_secondary: fue.gh_gas_score_secondary
      }
+  end
+
+  def find_vehicle_image(vehicle_id) do
+    query = from i in Image, where: i.vehicle_id == ^vehicle_id
+    {:ok, Repo.all(query)}
   end
 
 end
