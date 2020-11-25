@@ -87,7 +87,7 @@ defmodule CarData.Repo.Vehicle do
     |> Repo.all
   end
 
-  def find_vehicles(search_query) do
+  defp find_vehicles_query(search_query) do
     search_terms = String.split(search_query)
     with_query = from v in Vehicle,
                       select: %{
@@ -98,13 +98,23 @@ defmodule CarData.Repo.Vehicle do
                         id: v.id
                       }
     main_query = with_cte("search_fields", "search_fields", as: ^with_query)
-            |> select([v], v.id)
-            |> where([v], ilike(v.term, ^"#{Enum.map(search_terms, fn term -> "%#{term}%" end)}"))
+                 |> select([v], v.id)
+                 |> where([v], ilike(v.term, ^"#{Enum.map(search_terms, fn term -> "%#{term}%" end)}"))
 
-    final_query = from v in Vehicle,
-                       where: v.id in subquery(main_query),
-                       order_by: [desc: v.year, asc: v.make, asc: v.model]
-    Repo.all(final_query)
+    from v in Vehicle,
+         where: v.id in subquery(main_query),
+         order_by: [desc: v.year, asc: v.make, asc: v.model]
+  end
+
+  def find_vehicles(search_query) do
+    find_vehicles_query(search_query)
+    |> Repo.all
+  end
+
+  def find_vehicles(search_query, max_elements) do
+    find_vehicles_query(search_query)
+    |> limit(^max_elements)
+    |> Repo.all
   end
 
   def find_vehicles_v1(search_query) do

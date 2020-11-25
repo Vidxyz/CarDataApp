@@ -33,6 +33,7 @@ defmodule CarDataWeb.Schema do
     @desc "List vehicles by search string"
     field :search, list_of(:vehicle) do
       arg :query, non_null(:string)
+      arg :limit, :integer
       resolve &Resolvers.Content.find_vehicles/3
     end
 
