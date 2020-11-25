@@ -17,8 +17,8 @@ defmodule CarDataWeb.Schema.EngineTypes do
     field :combined_power_consumption, :float
     field :fuel_economy_score, :integer
     field :epa_range_secondary, :string
-    field :epa_city_range_secondary, :string
-    field :epa_highway_range_secondary, :string
+    field :epa_city_range_secondary, :float
+    field :epa_highway_range_secondary, :float
     field :is_guzzler, :boolean
     field :time_to_charge_120v, :float
     field :time_to_charge_240v, :float

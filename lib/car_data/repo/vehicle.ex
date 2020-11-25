@@ -36,7 +36,7 @@ defmodule CarData.Repo.Vehicle do
     query
     |> join(:inner, [v, e, fe], fe in ^table, on: fe.engine_id == e.id)
     |> where([v, _e, fe], not is_nil(field(fe, ^field_name)))
-    |> order_by([v, _e, fe], [{^String.to_atom(order), field(fe, ^field_name)}, asc: v.year, asc: v.make, asc: v.model])
+    |> order_by([v, _e, fe], [{^String.to_atom(order), field(fe, ^field_name)}, desc: v.year, asc: v.make, asc: v.model])
   end
 
   defp sort_vehicles_by_fuel_metric(metric, order, max_elements, offset) do
@@ -61,7 +61,7 @@ defmodule CarData.Repo.Vehicle do
 
     query
     |> where([v, e], not is_nil(field(e, ^String.to_atom(metric))))
-    |> order_by([v, e], [{^String.to_atom(order), field(e, ^String.to_atom(metric))}, asc: v.year, asc: v.make, asc: v.model])
+    |> order_by([v, e], [{^String.to_atom(order), field(e, ^String.to_atom(metric))}, desc: v.year, asc: v.make, asc: v.model])
   end
 
   # Only returns non-zero results for chosen metric
@@ -75,7 +75,7 @@ defmodule CarData.Repo.Vehicle do
     query
     |> where([v, d], not is_nil(field(d, ^String.to_atom(metric))))
     |> where([v, d], (field(d, ^String.to_atom(metric))) > 0)
-    |> order_by([v, d], [{^String.to_atom(order), field(d, ^String.to_atom(metric))}, asc: v.year, asc: v.make, asc: v.model])
+    |> order_by([v, d], [{^String.to_atom(order), field(d, ^String.to_atom(metric))}, desc: v.year, asc: v.make, asc: v.model])
   end
 
   def sort_vehicles_by_metric(metric, order, max_elements, offset) do
@@ -97,6 +97,7 @@ defmodule CarData.Repo.Vehicle do
           :error -> from v in query, where: ilike(v.make, ^"%#{term}%") or ilike(v.model, ^"%#{term}%")
         end
       end)
+    |> order_by([v], [desc: v.year, asc: v.make, asc: v.model])
     |> Repo.all
   end
 
@@ -108,7 +109,7 @@ defmodule CarData.Repo.Vehicle do
     query = from v in Vehicle,
          limit: ^max_elements,
          offset: ^offset,
-         order_by: [asc: v.make, asc: v.model, asc: v.year]
+         order_by: [asc: v.make, asc: v.model, desc: v.year]
     query |> Repo.all
   end
 
