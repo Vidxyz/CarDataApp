@@ -34,6 +34,7 @@ defmodule CarDataWeb.Schema do
     field :search, list_of(:vehicle) do
       arg :query, non_null(:string)
       arg :limit, :integer
+      arg :offset, :integer, default_value: 0
       resolve &Resolvers.Content.find_vehicles/3
     end
 

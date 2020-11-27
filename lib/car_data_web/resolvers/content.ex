@@ -15,12 +15,12 @@ defmodule CarDataWeb.Resolvers.Content do
       end
   end
 
-  def find_vehicles(_parent, %{query: search_query, limit: limit}, _resolution) do
-    {:ok, Vehicle.find_vehicles(search_query, limit)}
+  def find_vehicles(_parent, %{query: search_query, limit: limit, offset: offset}, _resolution) do
+    {:ok, Vehicle.find_vehicles(search_query, limit, offset)}
   end
 
-  def find_vehicles(_parent, %{query: search_query}, _resolution) do
-    {:ok, Vehicle.find_vehicles(search_query)}
+  def find_vehicles(_parent, %{query: search_query, offset: offset}, _resolution) do
+    {:ok, Vehicle.find_vehicles(search_query, offset)}
   end
 
   def find_vehicle(_parent, %{id: id}, _resolution) do

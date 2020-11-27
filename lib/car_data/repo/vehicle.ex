@@ -106,14 +106,16 @@ defmodule CarData.Repo.Vehicle do
          order_by: [desc: v.year, asc: v.make, asc: v.model]
   end
 
-  def find_vehicles(search_query) do
+  def find_vehicles(search_query, offset) do
     find_vehicles_query(search_query)
+    |> offset(^offset)
     |> Repo.all
   end
 
-  def find_vehicles(search_query, max_elements) do
+  def find_vehicles(search_query, max_elements, offset) do
     find_vehicles_query(search_query)
     |> limit(^max_elements)
+    |> offset(^offset)
     |> Repo.all
   end
 
