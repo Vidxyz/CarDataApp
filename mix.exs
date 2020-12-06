@@ -47,6 +47,7 @@ defmodule CarData.MixProject do
       {:absinthe, "~> 1.5.0"},
       {:absinthe_plug, "~> 1.5"},
 #      {:absinthe_ecto, ">= 0.0.0"},
+      { :uuid, "~> 1.1" },
     ]
   end
 

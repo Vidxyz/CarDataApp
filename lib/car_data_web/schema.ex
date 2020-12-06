@@ -10,6 +10,22 @@ defmodule CarDataWeb.Schema do
 
   query do
 
+    @desc "Fetch vehicles based on supplied attributes"
+    field :attribute_search, list_of(:vehicle) do
+      arg :make, list_of(:string), default_value: []
+      arg :year, list_of(:integer), default_value: []
+      arg :fuel_type_primary, list_of(:string), default_value: []
+      arg :fuel_type_secondary, list_of(:string), default_value: []
+      arg :fuel_type, list_of(:string), default_value: []
+      arg :engine_descriptor, list_of(:string), default_value: []
+      arg :type, list_of(:string), default_value: []
+      arg :cylinders, list_of(:float), default_value: []
+      arg :displacement, list_of(:float), default_value: []
+      arg :limit, :integer, default_value: 10
+      arg :offset, :integer, default_value: 0
+      resolve &Resolvers.Attribute.find_vehicles_by_attributes/3
+    end
+
     @desc "Fetch all distinct attribute names"
     field :attribute_names, list_of(:string) do
       resolve &Resolvers.Attribute.get_distinct_attribute_names/3

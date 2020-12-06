@@ -33,6 +33,7 @@
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/postgrex" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/ranch" />
       <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/telemetry" />
+      <excludeFolder url="file://$MODULE_DIR$/_build/dev/lib/uuid" />
       <excludeFolder url="file://$MODULE_DIR$/assets/node_modules/phoenix" />
       <excludeFolder url="file://$MODULE_DIR$/assets/node_modules/phoenix_html" />
       <excludeFolder url="file://$MODULE_DIR$/cover" />
@@ -80,5 +81,7 @@
     <orderEntry type="library" name="dataloader" level="project" />
     <orderEntry type="library" name="dialyxir" level="project" />
     <orderEntry type="library" name="mix_test_watch" level="project" />
+    <orderEntry type="library" name="uuid" level="project" />
+    <orderEntry type="library" name="benchfella" level="project" />
   </component>
 </module>

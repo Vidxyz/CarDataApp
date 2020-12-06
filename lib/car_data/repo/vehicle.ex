@@ -238,6 +238,7 @@ defmodule CarData.Repo.Vehicle do
      join: fe in FuelEconomy, on: fe.engine_id == e.id,
      join: fue in FuelEmission, on: fue.engine_id == e.id,
      select: %{
+       id: v.id,
        make: v.make,
        model: v.model,
        year: v.year,
@@ -292,6 +293,40 @@ defmodule CarData.Repo.Vehicle do
   def find_vehicle_image(vehicle_id) do
     query = from i in Image, where: i.vehicle_id == ^vehicle_id
     {:ok, Repo.all(query)}
+  end
+
+  # Vehicle search by attribute values
+  def find_vehicles_by_attributes(args, max_elements, offset) do
+    args_with_chosen_values = Enum.filter(args,
+      fn {attribute_name, attribute_values} -> !Enum.empty?(attribute_values) end)
+
+    base_query = get_all_attributes()
+    the_query = with_cte("all_fields", "all_fields", as: ^base_query)
+
+    # Must now add attribute filters into the main query
+    query_with_filters = Enum.reduce(args_with_chosen_values, the_query,
+      fn ({attribute_name, attribute_values}, acc) ->
+        where(acc, [a], field(a, ^attribute_name) in ^attribute_values) end)
+
+    query_with_filters
+    |> select([c], %Vehicle{
+      id: c.id, make: c.make, model: c.model,
+      year: c.year, fuel_type_primary: c.fuel_type_primary,
+      fuel_type_secondary: c.fuel_type_secondary, fuel_type: c.fuel_type,
+      manufacturer_code: c.manufacturer_code, record_id: c.record_id,
+      alternative_fuel_type: c.alternative_fuel_type, vehicle_class: c.vehicle_class})
+    |> limit(^max_elements)
+    |> offset(^offset)
+    |> Repo.all
+    |> Enum.map(fn result -> Map.from_struct(result) end)
+    |> Enum.map(fn item ->
+      %Vehicle{
+         id: UUID.binary_to_string!(item.id), make: item.make, model: item.model,
+         year: item.year, fuel_type_primary: item.fuel_type_primary,
+         fuel_type_secondary: item.fuel_type_secondary, fuel_type: item.fuel_type,
+         manufacturer_code: item.manufacturer_code, record_id: item.record_id,
+         alternative_fuel_type: item.alternative_fuel_type, vehicle_class: item.vehicle_class
+       } end)
   end
 
 end
