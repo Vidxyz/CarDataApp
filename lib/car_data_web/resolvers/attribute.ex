@@ -23,6 +23,9 @@ defmodule CarDataWeb.Resolvers.Attribute do
     type: type,
     cylinders: cylinders,
     displacement: displacement,
+    is_supercharged: is_supercharged,
+    is_turbocharged: is_turbocharged,
+    is_guzzler: is_guzzler,
     limit: limit,
     offset: offset,
     sort_by: "",
@@ -39,6 +42,9 @@ defmodule CarDataWeb.Resolvers.Attribute do
         type: type,
         cylinders: cylinders,
         displacement: displacement,
+        is_supercharged: is_supercharged,
+        is_turbocharged: is_turbocharged,
+        is_guzzler: is_guzzler,
       }, limit, offset)}
   end
 
@@ -52,6 +58,9 @@ defmodule CarDataWeb.Resolvers.Attribute do
     type: type,
     cylinders: cylinders,
     displacement: displacement,
+    is_supercharged: is_supercharged,
+    is_turbocharged: is_turbocharged,
+    is_guzzler: is_guzzler,
     limit: limit,
     offset: offset,
     sort_by: metric,
@@ -68,6 +77,9 @@ defmodule CarDataWeb.Resolvers.Attribute do
         type: type,
         cylinders: cylinders,
         displacement: displacement,
+        is_supercharged: is_supercharged,
+        is_turbocharged: is_turbocharged,
+        is_guzzler: is_guzzler,
       }, limit, offset, metric, order)}
   end
 

@@ -21,6 +21,9 @@ defmodule CarDataWeb.Schema do
       arg :type, list_of(:string), default_value: []
       arg :cylinders, list_of(:float), default_value: []
       arg :displacement, list_of(:float), default_value: []
+      arg :is_supercharged, list_of(:boolean), default_value: []
+      arg :is_turbocharged, list_of(:boolean), default_value: []
+      arg :is_guzzler, list_of(:boolean), default_value: []
       arg :limit, :integer, default_value: 10
       arg :offset, :integer, default_value: 0
       arg :sort_by, :string, default_value: ""
