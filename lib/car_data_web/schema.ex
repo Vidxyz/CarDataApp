@@ -23,7 +23,7 @@ defmodule CarDataWeb.Schema do
       arg :displacement, list_of(:float), default_value: []
       arg :limit, :integer, default_value: 10
       arg :offset, :integer, default_value: 0
-      arg :sort_by, :string
+      arg :sort_by, :string, default_value: ""
       arg :order, :string, default_value: "desc"
       resolve &Resolvers.Attribute.find_vehicles_by_attributes/3
     end
