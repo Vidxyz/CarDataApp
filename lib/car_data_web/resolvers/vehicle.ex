@@ -33,14 +33,14 @@ defmodule CarDataWeb.Resolvers.Vehicle do
   def find_engine(%Vehicle{id: vehicle_id}, _args, _resolution) do
     case Repo.Vehicle.find_engine(%{vehicle_id: vehicle_id}) do
       nil -> {:error, "Engine with Vehicle ID #{vehicle_id} not found}"}
-      [dimensions | _] -> {:ok, dimensions}
+      [engine | _] -> {:ok, engine}
     end
   end
 
   def find_engine(_parent, %{id: engine_id}, _resolution) do
     case Repo.Vehicle.find_engine(%{engine_id: engine_id}) do
       nil -> {:error, "Engine with ID #{engine_id} not found}"}
-      dimensions -> {:ok, dimensions}
+      engine -> {:ok, engine}
     end
   end
 end
