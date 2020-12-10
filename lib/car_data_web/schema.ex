@@ -24,6 +24,13 @@ defmodule CarDataWeb.Schema do
       arg :is_supercharged, list_of(:boolean), default_value: []
       arg :is_turbocharged, list_of(:boolean), default_value: []
       arg :is_guzzler, list_of(:boolean), default_value: []
+      arg :highway_mpg_primary, list_of(:integer), default_value: []
+      arg :city_mpg_primary, list_of(:integer), default_value: []
+      arg :combined_mpg_primary, list_of(:integer), default_value: []
+      arg :annual_fuel_cost_primary, list_of(:integer), default_value: []
+      arg :fuel_economy_score, list_of(:integer), default_value: []
+      arg :gh_gas_score_primary, list_of(:integer), default_value: []
+      arg :tailpipe_co2_primary, list_of(:float), default_value: []
       arg :limit, :integer, default_value: 10
       arg :offset, :integer, default_value: 0
       arg :sort_by, :string, default_value: ""
