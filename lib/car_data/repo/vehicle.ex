@@ -298,6 +298,7 @@ defmodule CarData.Repo.Vehicle do
   def find_vehicles_by_attributes(args, max_elements, offset, metric, order) do
     build_attribute_search_query(args, max_elements, offset)
     |> order_by([c], [{^String.to_atom(order), field(c, ^String.to_atom(metric))}])
+    |> where([c], not is_nil(field(c, ^String.to_atom(metric))))
     |> map_and_return_result
   end
 
