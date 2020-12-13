@@ -219,14 +219,13 @@ defmodule CarData.Repo.Vehicle do
   end
 
   defp get_distinct_attribute_values_for_chosen_attribute_names(attribute_names) do
-    with_query = get_all_attributes()
-    attribute_values = Enum.map(attribute_names, fn field_name ->
-      query = with_cte("all_attributes", "all_attributes", as: ^with_query)
-              |> select([c], field(c, ^field_name))
-              |> distinct(true)
-              |> order_by([c], asc: field(c, ^field_name))
-      Repo.all(query)
-    end)
+    total_dataset =  Repo.all(get_all_attributes())
+    attribute_values = Enum.map(attribute_names,
+      fn attribute_name -> total_dataset
+        |> Enum.map(fn row -> row[attribute_name] end)
+        |> Enum.uniq
+        |> Enum.sort
+      end)
     Enum.zip(attribute_names, attribute_values) |> Enum.into(%{})
   end
 
