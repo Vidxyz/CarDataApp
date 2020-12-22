@@ -87,7 +87,7 @@ defmodule CarData.Repo.Vehicle do
     |> Repo.all
   end
 
-  defp find_vehicles_query(search_query) do
+  defp find_vehicles_by_search_query(search_query) do
     search_terms = String.split(search_query)
     with_query = from v in Vehicle,
                       select: %{
@@ -106,14 +106,33 @@ defmodule CarData.Repo.Vehicle do
          order_by: [desc: v.year, asc: v.make, asc: v.model]
   end
 
+  defp find_vehicles_by_ids_query(vehicle_ids) do
+    from v in Vehicle,
+    where: v.id in ^vehicle_ids,
+    order_by: [asc: v.id]
+  end
+
+  def find_vehicles(ids = [h | t], offset) do
+    find_vehicles_by_ids_query(ids)
+    |> offset(^offset)
+    |> Repo.all
+  end
+
+  def find_vehicles(ids = [h | t], max_elements, offset) do
+    find_vehicles_by_ids_query(ids)
+    |> limit(^max_elements)
+    |> offset(^offset)
+    |> Repo.all
+  end
+
   def find_vehicles(search_query, offset) do
-    find_vehicles_query(search_query)
+    find_vehicles_by_search_query(search_query)
     |> offset(^offset)
     |> Repo.all
   end
 
   def find_vehicles(search_query, max_elements, offset) do
-    find_vehicles_query(search_query)
+    find_vehicles_by_search_query(search_query)
     |> limit(^max_elements)
     |> offset(^offset)
     |> Repo.all

@@ -73,6 +73,14 @@ defmodule CarDataWeb.Schema do
       resolve &Resolvers.Content.get_vehicles/3
     end
 
+    @desc "Get Vehicles By List of Ids"
+    field :vehicles_by_id, list_of(:vehicle) do
+      arg :ids, non_null(list_of(:id))
+      arg :limit, :integer
+      arg :offset, :integer, default_value: 0
+      resolve &Resolvers.Content.find_vehicles/3
+    end
+
     @desc "Get Vehicle By Id"
     field :vehicle, :vehicle do
       arg :id, non_null(:id)
