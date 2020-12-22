@@ -112,6 +112,14 @@ defmodule CarData.Repo.Vehicle do
     order_by: [asc: v.id]
   end
 
+  def find_vehicles([], offset) do
+    []
+  end
+
+  def find_vehicles([], max_elements, offset)  do
+    []
+  end
+
   def find_vehicles(ids = [h | t], offset) do
     find_vehicles_by_ids_query(ids)
     |> offset(^offset)
