@@ -87,6 +87,11 @@ defmodule CarDataWeb.Schema do
       resolve &Resolvers.Content.find_vehicle/3
     end
 
+    @desc "Get Random Vehicle"
+    field :random_vehicle, :vehicle do
+      resolve &Resolvers.Content.random_vehicle/3
+    end
+
     @desc "Get Transmission by Id"
     field :transmission, :transmission do
       arg :id, non_null(:id)

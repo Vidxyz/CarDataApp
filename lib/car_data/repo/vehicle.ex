@@ -160,6 +160,13 @@ defmodule CarData.Repo.Vehicle do
     |> Repo.all
   end
 
+  def get_random_vehicle() do
+    query = from v in Vehicle,
+      order_by: fragment("RANDOM()"),
+      limit: 1
+    Repo.all(query)
+  end
+
   def find_vehicle(vehicle_id) do
     Repo.get(Vehicle, vehicle_id)
   end

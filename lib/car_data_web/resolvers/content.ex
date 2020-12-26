@@ -38,6 +38,13 @@ defmodule CarDataWeb.Resolvers.Content do
     end
   end
 
+  def random_vehicle(_parent, _args, _resolution) do
+    case Vehicle.get_random_vehicle() do
+      nil -> {:error, "An error has occurred"}
+      [vehicle | tail] -> {:ok, vehicle}
+    end
+  end
+
   def get_vehicles(_parent, %{limit: limit, offset: offset}, _resolution) do
     {:ok, Vehicle.get_vehicles(limit, offset)}
   end
