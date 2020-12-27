@@ -19,6 +19,7 @@ defmodule CarDataWeb.Schema do
       arg :fuel_type, list_of(:string), default_value: []
       arg :engine_descriptor, list_of(:string), default_value: []
       arg :type, list_of(:string), default_value: []
+      arg :vehicle_class, list_of(:string), default_value: []
       arg :cylinders, list_of(:float), default_value: []
       arg :displacement, list_of(:float), default_value: []
       arg :is_supercharged, list_of(:boolean), default_value: []
