@@ -15,6 +15,13 @@ defmodule CarDataWeb.Resolvers.Content do
       end
   end
 
+  def find_vehicles_count(_parent, %{query: search_query}, _resolution) do
+    case Vehicle.find_vehicles_count(search_query) do
+      nil -> {:error, "An error has occurred"}
+      resulting_counts -> {:ok, Enum.sum(resulting_counts)}
+    end
+  end
+
   def find_vehicles(_parent, %{ids: ids, limit: limit, offset: offset}, _resolution) do
     {:ok, Vehicle.find_vehicles(ids, limit, offset)}
   end

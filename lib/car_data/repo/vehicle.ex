@@ -133,6 +133,13 @@ defmodule CarData.Repo.Vehicle do
     |> Repo.all
   end
 
+  def find_vehicles_count(search_query) do
+    find_vehicles_by_search_query(search_query)
+    |> group_by([c], [c.year, c.make, c.model])
+    |> select([c], count(c.id))
+    |> Repo.all
+  end
+
   def find_vehicles(search_query, offset) do
     find_vehicles_by_search_query(search_query)
     |> offset(^offset)

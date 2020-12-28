@@ -94,6 +94,12 @@ defmodule CarDataWeb.Schema do
       resolve &Resolvers.Content.find_vehicles/3
     end
 
+    @desc "Get vehicle count by search string"
+    field :search_count, :integer do
+      arg :query, non_null(:string)
+      resolve &Resolvers.Content.find_vehicles_count/3
+    end
+
     @desc "Get all vehicles"
     field :vehicles, list_of(:vehicle) do
       arg :limit, :integer, default_value: 50
