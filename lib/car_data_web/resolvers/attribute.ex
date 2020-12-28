@@ -13,6 +13,107 @@ defmodule CarDataWeb.Resolvers.Attribute do
     {:ok, Vehicle.get_distinct_attribute_values(attributes)}
   end
 
+  def find_vehicles_count_by_attributes(_parent, %{
+    make: make,
+    year: year,
+    fuel_type_primary: fuel_type_primary,
+    fuel_type_secondary: fuel_type_secondary,
+    fuel_type: fuel_type,
+    engine_descriptor: engine_descriptor,
+    type: type,
+    vehicle_class: vehicle_class,
+    cylinders: cylinders,
+    displacement: displacement,
+    is_supercharged: is_supercharged,
+    is_turbocharged: is_turbocharged,
+    is_guzzler: is_guzzler,
+    city_mpg_primary: city_mpg_primary,
+    highway_mpg_primary: highway_mpg_primary,
+    combined_mpg_primary: combined_mpg_primary,
+    annual_fuel_cost_primary: annual_fuel_cost_primary,
+    fuel_economy_score: fuel_economy_score,
+    tailpipe_co2_primary: tailpipe_co2_primary,
+    gh_gas_score_primary: gh_gas_score_primary,
+    sort_by: "",
+    order: order
+  } ,_resolution) do
+    {:ok, Vehicle.find_vehicles_count_by_attributes(
+      %{
+        make: make,
+        year: year,
+        fuel_type_primary: fuel_type_primary,
+        fuel_type_secondary: fuel_type_secondary,
+        fuel_type: fuel_type,
+        engine_descriptor: engine_descriptor,
+        type: type,
+        vehicle_class: vehicle_class,
+        cylinders: cylinders,
+        displacement: displacement,
+        is_supercharged: is_supercharged,
+        is_turbocharged: is_turbocharged,
+        is_guzzler: is_guzzler,
+        city_mpg_primary: city_mpg_primary,
+        highway_mpg_primary: highway_mpg_primary,
+        combined_mpg_primary: combined_mpg_primary,
+        annual_fuel_cost_primary: annual_fuel_cost_primary,
+        fuel_economy_score: fuel_economy_score,
+        tailpipe_co2_primary: tailpipe_co2_primary,
+        gh_gas_score_primary: gh_gas_score_primary,
+      })}
+  end
+
+  def find_vehicles_count_by_attributes(_parent, %{
+    make: make,
+    year: year,
+    fuel_type_primary: fuel_type_primary,
+    fuel_type_secondary: fuel_type_secondary,
+    fuel_type: fuel_type,
+    engine_descriptor: engine_descriptor,
+    type: type,
+    vehicle_class: vehicle_class,
+    cylinders: cylinders,
+    displacement: displacement,
+    is_supercharged: is_supercharged,
+    is_turbocharged: is_turbocharged,
+    is_guzzler: is_guzzler,
+    city_mpg_primary: city_mpg_primary,
+    highway_mpg_primary: highway_mpg_primary,
+    combined_mpg_primary: combined_mpg_primary,
+    annual_fuel_cost_primary: annual_fuel_cost_primary,
+    fuel_economy_score: fuel_economy_score,
+    tailpipe_co2_primary: tailpipe_co2_primary,
+    gh_gas_score_primary: gh_gas_score_primary,
+    sort_by: metric,
+    order: order
+  } ,_resolution) do
+    case Vehicle.find_vehicles_count_by_attributes(
+           %{
+             make: make,
+             year: year,
+             fuel_type_primary: fuel_type_primary,
+             fuel_type_secondary: fuel_type_secondary,
+             fuel_type: fuel_type,
+             engine_descriptor: engine_descriptor,
+             type: type,
+             vehicle_class: vehicle_class,
+             cylinders: cylinders,
+             displacement: displacement,
+             is_supercharged: is_supercharged,
+             is_turbocharged: is_turbocharged,
+             is_guzzler: is_guzzler,
+             city_mpg_primary: city_mpg_primary,
+             highway_mpg_primary: highway_mpg_primary,
+             combined_mpg_primary: combined_mpg_primary,
+             annual_fuel_cost_primary: annual_fuel_cost_primary,
+             fuel_economy_score: fuel_economy_score,
+             tailpipe_co2_primary: tailpipe_co2_primary,
+             gh_gas_score_primary: gh_gas_score_primary,
+           }, metric, order) do
+      nil -> {:error, "An error has occurred"}
+      resulting_counts -> {:ok, Enum.sum(resulting_counts)}
+    end
+  end
+
   def find_vehicles_by_attributes(_parent, %{
     make: make,
     year: year,

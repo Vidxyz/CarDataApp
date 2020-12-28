@@ -11,6 +11,33 @@ defmodule CarDataWeb.Schema do
   query do
 
     @desc "Fetch vehicles based on supplied attributes"
+    field :attribute_search_count, :integer do
+      arg :make, list_of(:string), default_value: []
+      arg :year, list_of(:integer), default_value: []
+      arg :fuel_type_primary, list_of(:string), default_value: []
+      arg :fuel_type_secondary, list_of(:string), default_value: []
+      arg :fuel_type, list_of(:string), default_value: []
+      arg :engine_descriptor, list_of(:string), default_value: []
+      arg :type, list_of(:string), default_value: []
+      arg :vehicle_class, list_of(:string), default_value: []
+      arg :cylinders, list_of(:float), default_value: []
+      arg :displacement, list_of(:float), default_value: []
+      arg :is_supercharged, list_of(:boolean), default_value: []
+      arg :is_turbocharged, list_of(:boolean), default_value: []
+      arg :is_guzzler, list_of(:boolean), default_value: []
+      arg :highway_mpg_primary, list_of(:integer), default_value: []
+      arg :city_mpg_primary, list_of(:integer), default_value: []
+      arg :combined_mpg_primary, list_of(:integer), default_value: []
+      arg :annual_fuel_cost_primary, list_of(:integer), default_value: []
+      arg :fuel_economy_score, list_of(:integer), default_value: []
+      arg :gh_gas_score_primary, list_of(:integer), default_value: []
+      arg :tailpipe_co2_primary, list_of(:float), default_value: []
+      arg :sort_by, :string, default_value: ""
+      arg :order, :string, default_value: "desc"
+      resolve &Resolvers.Attribute.find_vehicles_count_by_attributes/3
+    end
+
+    @desc "Fetch vehicles based on supplied attributes"
     field :attribute_search, list_of(:vehicle) do
       arg :make, list_of(:string), default_value: []
       arg :year, list_of(:integer), default_value: []

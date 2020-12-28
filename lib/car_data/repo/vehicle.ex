@@ -328,6 +328,32 @@ defmodule CarData.Repo.Vehicle do
     {:ok, Repo.all(query)}
   end
 
+  def find_vehicles_count_by_attributes(args, metric, order) do
+    build_attribute_search_result_count_query(args)
+    |> order_by([c], [{^String.to_atom(order), field(c, ^String.to_atom(metric))}])
+    |> where([c], not is_nil(field(c, ^String.to_atom(metric))))
+    |> group_by([c], [field(c, ^String.to_atom(metric))])
+    |> select([c], count())
+    |> Repo.all
+  end
+
+  def find_vehicles_count_by_attributes(args) do
+    build_attribute_search_result_count_query(args)
+    |> select([c], count())
+    |> Repo.one
+  end
+
+  defp build_attribute_search_result_count_query(args) do
+    base_query = get_all_attributes()
+    the_query = with_cte("all_fields", "all_fields", as: ^base_query)
+
+    args
+    |> Enum.filter(fn {attribute_name, attribute_values} -> !Enum.empty?(attribute_values) end)
+    |> Enum.reduce(the_query, fn ({attribute_name, attribute_values}, acc) ->
+      where(acc, [a], field(a, ^attribute_name) in ^attribute_values) end)
+  end
+
+
   def find_vehicles_by_attributes(args, max_elements, offset, metric, order) do
     build_attribute_search_query(args, max_elements, offset)
     |> order_by([c], [{^String.to_atom(order), field(c, ^String.to_atom(metric))}])
